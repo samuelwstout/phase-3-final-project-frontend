@@ -23,11 +23,8 @@ const todos = folder.todos.map(t => <Todo key={t.id} todo={t} />)
     return (
         <div>
            <h2>{folder.name}</h2>
-           <br/>
            <h3>Todos:</h3>
-           <br/>
            {todos}
-           <br/>
         </div>
     )
 }

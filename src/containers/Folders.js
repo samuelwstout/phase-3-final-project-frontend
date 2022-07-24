@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import FolderLink from '../components/FolderLink'
+import FolderForm from '../containers/FolderForm'
 
 const Folders = () => {
     
@@ -13,10 +14,12 @@ const Folders = () => {
         })
     }, [])
 
-    const foldersList = folders.map( f => <FolderLink key={f.id} folder={f} />)
+    const foldersList = folders.map(f => <FolderLink key={f.id} folder={f} />)
 
     return (
         <div>
+            <h2>Folders:</h2>
+            <FolderForm />
             <ul>
                 {foldersList}
             </ul>
