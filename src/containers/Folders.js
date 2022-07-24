@@ -18,8 +18,8 @@ const Folders = () => {
 
     return (
         <div>
-            <h2>Folders:</h2>
             <FolderForm />
+            <h4>Folders:</h4>
             <ul>
                 {foldersList}
             </ul>
