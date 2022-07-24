@@ -15,10 +15,11 @@ const Folders = () => {
     }, [])
 
     const foldersList = folders.map(f => <FolderLink key={f.id} folder={f} />)
-
+ 
+   
     return (
         <div>
-            <FolderForm />
+            <FolderForm folders={folders} />
             <h4>Folders:</h4>
             <ul>
                 {foldersList}
