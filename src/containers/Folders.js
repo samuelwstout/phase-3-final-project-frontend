@@ -19,7 +19,7 @@ const Folders = () => {
    
     return (
         <div>
-            <FolderForm folders={folders} />
+            <FolderForm  />
             <h4>Folders:</h4>
             <ul>
                 {foldersList}
