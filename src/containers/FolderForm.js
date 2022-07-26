@@ -23,7 +23,7 @@ const FolderForm = () => {
     <div>
         <h4>Create Folder:</h4>
         <form onSubmit={handleSubmit}>
-            <input type='text' onChange={e => setInput(e.target.value)} />
+            <input type='text' value={input} onChange={e => setInput(e.target.value)} />
             <input type='submit' />
         </form>
     </div>
