@@ -6,6 +6,7 @@ const TodoForm = ({folder}) => {
 const [createInput, setCreateInput] = useState('')
 const [editId, setEditId] = useState(0)
 const [editInput, setEditInput] = useState('')
+const [deleteId, setDeleteId] = useState(0)
 
 const params = useParams()
 
@@ -41,6 +42,18 @@ const handleSubmitUpdate = (e) => {
   setEditInput('')
 }
 
+const handleSubmitDelete = (e) => {
+  e.preventDefault()
+  fetch(`http://localhost:9292/folders/${params.id}/todos/${deleteId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  .then(r => r.json())
+  .then(data => data)
+}
+
   return (
     <div>
         <h4>Create Todo:</h4>
@@ -59,6 +72,18 @@ const handleSubmitUpdate = (e) => {
             }
           </select>
           <input type='text' value={editInput} onChange={e => setEditInput(e.target.value)} />
+          <input type='submit' />
+        </form>
+        <h4>Delete Todo:</h4>
+        <form onSubmit={handleSubmitDelete}>
+          <select onChange={e => setDeleteId(e.target.value)}>
+            <option>Select a todo</option>
+            {
+              folder.todos.map((f) => {
+                return <option key={f.id} value={f.id}>{f.name}</option>
+              })
+            }
+          </select>
           <input type='submit' />
         </form>
     </div>
