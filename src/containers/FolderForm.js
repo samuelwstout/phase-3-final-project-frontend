@@ -17,6 +17,7 @@ const FolderForm = () => {
     })
     .then(r => r.json())
     .then(data => data)
+    setInput('')
   }
   return (
     <div>
