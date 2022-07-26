@@ -4,8 +4,8 @@ const FolderLink = ({folder}) => {
 
   return (
     <div>
-        <Link to={`/folders/${folder.id}`}>
-            <h3>{folder.name}</h3> 
+        <Link to={`/folders/${folder.id}/todos`}>
+            <h3>{folder.name}</h3>
         </Link>
     </div>
   )

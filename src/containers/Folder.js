@@ -7,12 +7,11 @@ const Folder = () => {
     const [folder, setFolder] = useState({
         todos: []
     })
-    // const [todoFormFlag, setTodoFormFlag] = useState(false)
 
     const params = useParams()
 
     useEffect(() => {
-        fetch(`http://localhost:9292/folders/${params.id}`)
+        fetch(`http://localhost:9292/folders/${params.id}/todos`)
         .then(res => res.json())
         .then(data => {
             setFolder(data)
