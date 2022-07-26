@@ -1,9 +1,9 @@
 import {useState} from 'react'
 
-const FolderForm = () => {
-
+const FolderForm = (props) => {
+  
   const [input, setInput] = useState('')
-
+  
   const handleSubmit = (e) => {
     e.preventDefault()
     fetch('http://localhost:9292/folders', {
@@ -16,7 +16,7 @@ const FolderForm = () => {
         }),
     })
     .then(r => r.json())
-    .then(data => data)
+    .then(data => props.setNewFolder(data))
     setInput('')
   }
   return (

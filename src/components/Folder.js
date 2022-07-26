@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import Todo from '../components/Todo'
-import TodoForm from '../containers/TodoForm'
+import Todo from './Todo'
+import TodoForm from './TodoForm'
 
 const Folder = () => {
     const [folder, setFolder] = useState({
