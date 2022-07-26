@@ -16,7 +16,6 @@ const Folders = () => {
 
     const foldersList = folders.map(f => <FolderLink key={f.id} folder={f} />)
  
-   
     return (
         <div>
             <FolderForm  />

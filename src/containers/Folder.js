@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Todo from '../components/Todo'
+import TodoForm from '../containers/TodoForm'
 
 const Folder = () => {
     const [folder, setFolder] = useState({
         todos: []
     })
-    const [todoFormFlag, setTodoFormFlag] = useState(false)
+    // const [todoFormFlag, setTodoFormFlag] = useState(false)
 
     const params = useParams()
 
@@ -16,13 +17,14 @@ const Folder = () => {
         .then(data => {
             setFolder(data)
         })
-    }, [])
+    }, [params])
 
 const todos = folder.todos.map(t => <Todo key={t.id} todo={t} />)
 
     return (
         <div>
            <h2>{folder.name}</h2>
+           <TodoForm />
            <h3>Todos:</h3>
            {todos}
         </div>
