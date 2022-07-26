@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import { useParams } from 'react-router-dom'
 
-const TodoForm = ({folder}) => {
+const TodoForm = (props) => {
 
 const [createInput, setCreateInput] = useState('')
 const [editId, setEditId] = useState(0)
@@ -22,7 +22,7 @@ const handleSubmitCreate = (e) => {
     }),
   })
   .then(r => r.json())
-  .then(data => data)
+  .then(data => props.setNewTodo(data.name))
   setCreateInput('')
 }
 
@@ -66,7 +66,7 @@ const handleSubmitDelete = (e) => {
           <select onChange={e => setEditId(e.target.value)}>
             <option>Select a todo</option>
             {
-              folder.todos.map((f) => {
+              props.folder.todos.map((f) => {
                return <option key={f.id} value={f.id}>{f.name}</option>
               })
             }
@@ -79,7 +79,7 @@ const handleSubmitDelete = (e) => {
           <select onChange={e => setDeleteId(e.target.value)}>
             <option>Select a todo</option>
             {
-              folder.todos.map((f) => {
+              props.folder.todos.map((f) => {
                 return <option key={f.id} value={f.id}>{f.name}</option>
               })
             }

@@ -7,6 +7,7 @@ const Folder = () => {
     const [folder, setFolder] = useState({
         todos: []
     })
+    const [newTodo, setNewTodo] = useState('')
 
     const params = useParams()
 
@@ -23,9 +24,10 @@ const todos = folder.todos.map(t => <Todo key={t.id} todo={t} />)
     return (
         <div>
            <h2>{folder.name}</h2>
-           <TodoForm folder={folder} />
+           <TodoForm folder={folder} setNewTodo={setNewTodo} />
            <h3>Todos:</h3>
            {todos}
+           <h3>{newTodo}</h3>
         </div>
     )
 }
