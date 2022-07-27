@@ -6,25 +6,25 @@ const Folder = () => {
     const [folder, setFolder] = useState({
         todos: []
     })
+    const [todoArray, setTodoArray] = useState([])
     const [newTodo, setNewTodo] = useState('')
     const [editId, setEditId] = useState(0)
     const [editInput, setEditInput] = useState('')
-
+    
     const params = useParams()
 
     useEffect(() => {
         fetch(`http://localhost:9292/folders/${params.id}/todos`)
         .then(res => res.json())
         .then(data => {
-            setFolder(data)
+           setFolder(data)
+           const array = (data.todos.map((t) => {
+           return <h3 key={t.id}>{t.name}</h3>
+           }))
+           setTodoArray(array)
         })
     }, [params])
 
-    const todos = folder.todos.map((t) => {
-        return (
-         <h3 key={t.id}>{t.name}</h3>
-        )
-    })
     
     const handleSubmitUpdate = (e) => {
         e.preventDefault()
@@ -38,18 +38,27 @@ const Folder = () => {
           }),
         })
         .then(r => r.json())
-        .then(data => {
-         console.log(data)
+        .then(update => {
+            const old = folder.todos.find(x => x.id === update.id)
+            const arrayNames = folder.todos.map((t) => t.name)
+            arrayNames.splice(arrayNames.findIndex(s => s === old.name), 1)
+            arrayNames.push(update.name)
+            setTodoArray(arrayNames.map((s, index) => {
+                return <h3 key={index}>{s}</h3>
+            }))
+            // const arrayIds = folder.todos.map((t) => t.id)
+            // console.log(arrayIds)
+            // So, what I need to do is rerender todoArray with old removed and update added. 
+            // How do I remove old?
+            // How do I add update?
         })
         setEditInput('')
       }
-      
-
 
     return (
         <div>
            <h2>{folder.name}</h2>
-           <TodoForm folder={folder} setNewTodo={setNewTodo} todos={todos} />
+           <TodoForm folder={folder} setNewTodo={setNewTodo} />
 
            <h4>Edit Todo:</h4>
         <form onSubmit={handleSubmitUpdate}>
@@ -66,7 +75,7 @@ const Folder = () => {
         </form>
 
            <h3>Todos:</h3>
-           {todos}
+           {todoArray}
            <h3>{newTodo}</h3>
         </div>
     )

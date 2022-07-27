@@ -45,8 +45,6 @@ const handleSubmitDelete = (e) => {
             <input type='submit' />
           </form>
 
-     
-
         <h4>Delete Todo:</h4>
         <form onSubmit={handleSubmitDelete}>
           <select onChange={e => setDeleteId(e.target.value)}>
