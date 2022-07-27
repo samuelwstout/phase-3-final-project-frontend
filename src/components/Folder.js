@@ -10,6 +10,7 @@ const Folder = () => {
     const [newTodo, setNewTodo] = useState('')
     const [editId, setEditId] = useState(0)
     const [editInput, setEditInput] = useState('')
+    const [deleteId, setDeleteId] = useState(0)
     
     const params = useParams()
 
@@ -46,13 +47,28 @@ const Folder = () => {
             setTodoArray(arrayNames.map((s, index) => {
                 return <h3 key={index}>{s}</h3>
             }))
-            // const arrayIds = folder.todos.map((t) => t.id)
-            // console.log(arrayIds)
-            // So, what I need to do is rerender todoArray with old removed and update added. 
-            // How do I remove old?
-            // How do I add update?
         })
         setEditInput('')
+      }
+
+      const handleSubmitDelete = (e) => {
+        e.preventDefault()
+        fetch(`http://localhost:9292/folders/${params.id}/todos/${deleteId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+        .then(r => r.json())
+        .then(data => {
+            const arrayNames = folder.todos.map((t) => t.id)
+            const index = arrayNames.indexOf(data.id)
+            arrayNames.splice(index, 1)
+            const finalArray = folder.todos.filter(s => s.name !== data.name)
+            setTodoArray(finalArray.map(s => {
+                return <h3 key={s.id}>{s.name}</h3>
+            }))
+        })
       }
 
     return (
@@ -72,6 +88,19 @@ const Folder = () => {
             </select>
             <input type='text' value={editInput} onChange={e => setEditInput(e.target.value)} />
             <input type='submit' />
+        </form>
+
+        <h4>Delete Todo:</h4>
+        <form onSubmit={handleSubmitDelete}>
+          <select onChange={e => setDeleteId(e.target.value)}>
+            <option>Select a todo</option>
+            {
+              folder.todos.map((f) => {
+                return <option key={f.id} value={f.id}>{f.name}</option>
+              })
+            }
+          </select>
+          <input type='submit' />
         </form>
 
            <h3>Todos:</h3>
