@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react'
 
+
+
 const MyContext = React.createContext()
 
 const MyProvider = (props) => {
+   
+
     const [folders, setFolders] = useState([])
 
     useEffect(() => {
@@ -13,9 +17,11 @@ const MyProvider = (props) => {
         })
     }, [])
 
-    const addFolder = (folder) => {
-        setFolders([...folders, folder])
+    const addFolder = (data) => {
+        setFolders([...folders, data])
     }
+
+
 
 
     return (<MyContext.Provider value={{

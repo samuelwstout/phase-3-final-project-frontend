@@ -1,18 +1,28 @@
-import { useParams } from 'react-router-dom'
 import { MyConsumer } from '../MyContext'
+import TodoForm from '../components/TodoForm'
+import { useParams } from 'react-router-dom'
 
 const Folder = () => {
-    const params = useParams()
+  const params = useParams()
+
     return (
       <MyConsumer>
           {context => {
+            // eslint-disable-next-line
             const folder = context.folders.find(f => f.id == params.id)
-            const folderTodos = folder.todos.map(t => <div key={t.id}><h4>{t.name}</h4></div>)
+            
             return (
               <div>
-                 <h2>{folder.name}</h2>
-                 <h3>Todos:</h3>
-                 {folderTodos}
+                {folder && 
+                <div>
+                  <h2>{folder.name}</h2>
+                  <TodoForm />
+                  <h3>Todos:</h3>
+                  {folder.todos.map(t => {
+                    return <h4 key={t.id}>{t.name}</h4>
+                  })}
+                </div>
+                }
               </div>
             )
           }}
@@ -21,9 +31,7 @@ const Folder = () => {
 }
 export default Folder
 
-    // const [folder, setFolder] = useState({
-    //     todos: []
-    // })
+
     // const [todoArray, setTodoArray] = useState([])
     // const [createInput, setCreateInput] = useState('')
     // const [editId, setEditId] = useState(0)
@@ -116,11 +124,7 @@ export default Folder
 //         <div>
 //           
 
-//            <h4>Create Todo:</h4>
-//           <form onSubmit={handleSubmitCreate}>
-//             <input type='text' value={createInput} onChange={e => setCreateInput(e.target.value)} />
-//             <input type='submit' />
-//           </form>
+
 
 //            <h4>Update Todo:</h4>
 //         <form onSubmit={handleSubmitUpdate}>
