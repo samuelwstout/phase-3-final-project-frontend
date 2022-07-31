@@ -11,11 +11,16 @@ const MyProvider = (props) => {
         .then(data => {
             setFolders(data)
         })
-    }, [])    
+    }, [])
+
+    // const addFolder = (folder) => {
+    //     setFolders([...folders, folder])
+    // }
 
 
     return (<MyContext.Provider value={{
-        folders: folders
+        folders: folders,
+        // addFolder: addFolder
     }}>
         {props.children}
     </MyContext.Provider>
