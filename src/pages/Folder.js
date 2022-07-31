@@ -1,80 +1,49 @@
-import { MyConsumer } from '../MyContext'
-import TodoForm from '../components/TodoForm'
 import { useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+
 
 const Folder = () => {
   const params = useParams()
 
+  const [folderName, setFolderName] = useState('')
+  const [todoList, setTodoList] = useState([])
+  
+  useEffect(() => {
+    fetch(`http://localhost:9292/folders/${params.id}/todos`)
+    .then(res => res.json())
+    .then(data => {
+       const folderName = <h1>{data.name}</h1>
+       setFolderName(folderName)
+       const todoList = data.todos.map(t => {
+        return (
+          <div key={t.id}>
+            <ul>
+              <li>{t.name}</li>
+            </ul>
+          </div>
+        )
+       })
+       setTodoList(todoList)
+    })
+}, [params])
+
+
     return (
-      <MyConsumer>
-          {context => {
-            // eslint-disable-next-line
-            const folder = context.folders.find(f => f.id == params.id)
-            
-            return (
-              <div>
-                {folder && 
-                <div>
-                  <h2>{folder.name}</h2>
-                  <TodoForm />
-                  <h3>Todos:</h3>
-                  {folder.todos.map(t => {
-                    return <h4 key={t.id}>{t.name}</h4>
-                  })}
-                </div>
-                }
-              </div>
-            )
-          }}
-      </MyConsumer>
+        <div>
+          {folderName}
+          <h2>Todos:</h2>
+          {todoList}
+        </div>
     )
 }
 export default Folder
 
 
     // const [todoArray, setTodoArray] = useState([])
-    // const [createInput, setCreateInput] = useState('')
     // const [editId, setEditId] = useState(0)
     // const [editInput, setEditInput] = useState('')
     // const [deleteId, setDeleteId] = useState(0)
     
-
-//     useEffect(() => {
-//       fetch(`http://localhost:9292/folders/${params.id}/todos`)
-//       .then(res => res.json())
-//       .then(data => {
-//          setFolder(data)
-//          const array = (data.todos.map((t) => {
-//          return <h3 key={t.id}>{t.name}</h3>
-//          }))
-//          setTodoArray(array)
-//       })
-//   }, [])
-
-//     const handleSubmitCreate = (e) => {
-//         e.preventDefault()
-//         fetch(`http://localhost:9292/folders/${params.id}/todos`, {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify({
-//             name: createInput
-//           }),
-//         })
-//         .then(r => r.json())
-//         .then(data => {
-//             const arrayNames = folder.todos.map((t) => t.name)
-//             arrayNames.push(data.name)
-//             setTodoArray(arrayNames.map((s, index) => {
-//                 return (
-//                     <h3 key={index}>{s}</h3>
-//                 )
-//             }))
-//         })
-//         setCreateInput('')
-//       }
-
     
 //     const handleSubmitUpdate = (e) => {
 //         e.preventDefault()
@@ -123,9 +92,6 @@ export default Folder
 //     return (
 //         <div>
 //           
-
-
-
 //            <h4>Update Todo:</h4>
 //         <form onSubmit={handleSubmitUpdate}>
 //             <select onChange={e => setEditId(e.target.value)}>
@@ -157,4 +123,3 @@ export default Folder
 //            {todoArray}
 //         </div>
 //     )
-// 

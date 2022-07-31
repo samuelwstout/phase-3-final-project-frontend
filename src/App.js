@@ -2,9 +2,9 @@ import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Folders from './pages/Folders'
 import Folder from './pages/Folder'
-import './App.css';
 
-function App() {
+const App = () => {
+
   return (
     <Router>
       <Routes>
