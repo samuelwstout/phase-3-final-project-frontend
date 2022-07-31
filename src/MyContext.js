@@ -5,7 +5,13 @@ const MyContext = React.createContext()
 const MyProvider = (props) => {
     const [folders, setFolders] = useState([])
 
-    
+    useEffect(() => {
+        fetch('http://localhost:9292/folders')
+        .then(res => res.json())
+        .then(data => {
+            setFolders(data)
+        })
+    }, [])    
 
 
     return (<MyContext.Provider value={{
