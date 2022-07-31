@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import TodoForm from './TodoForm'
 
-const Folder = () => {
+const Folder = () => { 
     const [folder, setFolder] = useState({
         todos: []
     })
     const [todoArray, setTodoArray] = useState([])
-    const [newTodo, setNewTodo] = useState('')
+    const [createInput, setCreateInput] = useState('')
     const [editId, setEditId] = useState(0)
     const [editInput, setEditInput] = useState('')
     const [deleteId, setDeleteId] = useState(0)
@@ -25,6 +24,30 @@ const Folder = () => {
            setTodoArray(array)
         })
     }, [params])
+
+    const handleSubmitCreate = (e) => {
+        e.preventDefault()
+        fetch(`http://localhost:9292/folders/${params.id}/todos`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: createInput
+          }),
+        })
+        .then(r => r.json())
+        .then(data => {
+            const arrayNames = folder.todos.map((t) => t.name)
+            arrayNames.push(data.name)
+            setTodoArray(arrayNames.map((s, index) => {
+                return (
+                    <h3 key={index}>{s}</h3>
+                )
+            }))
+        })
+        setCreateInput('')
+      }
 
     
     const handleSubmitUpdate = (e) => {
@@ -74,9 +97,14 @@ const Folder = () => {
     return (
         <div>
            <h2>{folder.name}</h2>
-           <TodoForm folder={folder} setNewTodo={setNewTodo} />
 
-           <h4>Edit Todo:</h4>
+           <h4>Create Todo:</h4>
+          <form onSubmit={handleSubmitCreate}>
+            <input type='text' value={createInput} onChange={e => setCreateInput(e.target.value)} />
+            <input type='submit' />
+          </form>
+
+           <h4>Update Todo:</h4>
         <form onSubmit={handleSubmitUpdate}>
             <select onChange={e => setEditId(e.target.value)}>
                 <option>Select a todo</option>
@@ -105,7 +133,6 @@ const Folder = () => {
 
            <h3>Todos:</h3>
            {todoArray}
-           <h3>{newTodo}</h3>
         </div>
     )
 }

@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import FolderLink from './FolderLink'
-import FolderForm from './FolderForm'
 
 const Folders = () => {
     
     const [folders, setFolders] = useState([])
-    const [newFolder, setNewFolder] = useState({})
+    const [input, setInput] = useState('')
     
     useEffect(() => {
         fetch('http://localhost:9292/folders')
@@ -16,19 +14,38 @@ const Folders = () => {
         })
     }, [])
 
-    const foldersList = folders.map(f => <FolderLink key={f.id} folder={f} />)
-    const newFoldersList = <Link to={`/folders/${newFolder.id}/todos`}><h3>{newFolder.name}</h3></Link>
-    
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        fetch('http://localhost:9292/folders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: input
+            }),
+        })
+        .then(r => r.json())
+        .then(data => {
+        const create = <Link to={`/folders/${data.id}/todos`}>{data.name}</Link>
+       return console.log(create)
+        })
+        setInput('')
+    }
+
+    const foldersList = folders.map((d) => <div key={d.id}><Link to={`/folders/${d.id}/todos`}>{d.name}</Link></div>)
+
     return (
         <div>
-            <FolderForm setNewFolder={setNewFolder} />
-            <h4>Folders:</h4> 
-            <ul>
-                {foldersList}
-            </ul>
-            <ul>
-                {newFoldersList}
-            </ul>
+
+        <h4>Create Folder:</h4>
+            <form onSubmit={handleSubmit}>
+                <input type='text' value={input} onChange={e => setInput(e.target.value)} />
+                <input type='submit' />
+            </form> 
+
+            <h4>Folders:</h4>
+            {foldersList}
         </div>
     )
 }
