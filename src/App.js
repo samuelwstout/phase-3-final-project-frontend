@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Home from './components/Home'
-import Folders from './components/Folders'
-import Folder from './components/Folder'
+import Home from './pages/Home'
+import Folders from './pages/Folders'
+import Folder from './pages/Folder'
 import './App.css';
 
 function App() {
