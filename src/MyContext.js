@@ -13,14 +13,14 @@ const MyProvider = (props) => {
         })
     }, [])
 
-    // const addFolder = (folder) => {
-    //     setFolders([...folders, folder])
-    // }
+    const addFolder = (folder) => {
+        setFolders([...folders, folder])
+    }
 
 
     return (<MyContext.Provider value={{
         folders: folders,
-        // addFolder: addFolder
+        addFolder: addFolder
     }}>
         {props.children}
     </MyContext.Provider>
