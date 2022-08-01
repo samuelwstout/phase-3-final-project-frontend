@@ -9,6 +9,8 @@ const Folder = () => {
   const [todoList, setTodoList] = useState([])
   const [createInput, setCreateInput] = useState('')
   const [deleteId, setDeleteId] = useState(0)
+  const [editId, setEditId] = useState(0)
+  const [editInput, setEditInput] = useState('')
   
   useEffect(() => {
     fetch(`http://localhost:9292/folders/${params.id}/todos`)
@@ -58,11 +60,33 @@ const handleSubmitDelete = (e) => {
     })
   }
 
+  const handleSubmitUpdate = (e) => {
+    e.preventDefault()
+    fetch(`http://localhost:9292/folders/${params.id}/todos/${editId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: editInput
+      }),
+    })
+    .then(r => r.json())
+    .then(update => {
+        const old = todoList.find(x => x.id === update.id)
+        const array = todoList.map((t) => t)
+        array.splice(array.findIndex(s => s === old), 1)
+        array.push(update)
+        const updateTodos = array.map(t => t)
+        setTodoList(updateTodos)
+    })
+    setEditInput('')
+  }
+
 
     return (
         <div>
           {folderName}
-
           <h4>Create Todo:</h4>
           <form onSubmit={handleSubmitCreate}>
           <input type='text' value={createInput} onChange={e => setCreateInput(e.target.value)} />
@@ -82,6 +106,20 @@ const handleSubmitDelete = (e) => {
           <input type='submit' />
         </form>
 
+        <h4>Update Todo:</h4>
+        <form onSubmit={handleSubmitUpdate}>
+            <select onChange={e => setEditId(e.target.value)}>
+                <option>Select a todo</option>
+                {
+              todoList.map((t) => {
+                return <option key={t.id} value={t.id}>{t.name}</option>
+              })
+                }
+            </select>
+            <input type='text' value={editInput} onChange={e => setEditInput(e.target.value)} />
+            <input type='submit' />
+        </form>
+
           <h2>Todos:</h2>
           {todoList.map(t => {
             return (
@@ -96,59 +134,3 @@ const handleSubmitDelete = (e) => {
     )
 }
 export default Folder
-
-
-    // const [todoArray, setTodoArray] = useState([])
-    // const [editId, setEditId] = useState(0)
-    // const [editInput, setEditInput] = useState('')
-   
-    
-    
-//     const handleSubmitUpdate = (e) => {
-//         e.preventDefault()
-//         fetch(`http://localhost:9292/folders/${params.id}/todos/${editId}`, {
-//           method: 'PATCH',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify({
-//             name: editInput
-//           }),
-//         })
-//         .then(r => r.json())
-//         .then(update => {
-//             const old = folder.todos.find(x => x.id === update.id)
-//             const arrayNames = folder.todos.map((t) => t.name)
-//             arrayNames.splice(arrayNames.findIndex(s => s === old.name), 1)
-//             arrayNames.push(update.name)
-//             setTodoArray(arrayNames.map((s, index) => {
-//                 return <h3 key={index}>{s}</h3>
-//             }))
-//         })
-//         setEditInput('')
-//       }
-
-
-//     return (
-//         <div>
-//           
-//            <h4>Update Todo:</h4>
-//         <form onSubmit={handleSubmitUpdate}>
-//             <select onChange={e => setEditId(e.target.value)}>
-//                 <option>Select a todo</option>
-//                 {
-//                 folder.todos.map((f) => {
-//                 return <option key={f.id} value={f.id}>{f.name}</option>
-//                 })
-//                 }
-//             </select>
-//             <input type='text' value={editInput} onChange={e => setEditInput(e.target.value)} />
-//             <input type='submit' />
-//         </form>
-
-       
-
-//            <h3>Todos:</h3>
-//            {todoArray}
-//         </div>
-//     )
