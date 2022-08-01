@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Home from './components/Home'
+import Folders from './components/Folders'
+import Folder from './components/Folder'
 
-function App() {
+const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/folders" element={<Folders />} />
+        <Route path="/folders/:id/todos" element={<Folder />} />
+      </Routes>
+    </Router>
   );
 }
 
