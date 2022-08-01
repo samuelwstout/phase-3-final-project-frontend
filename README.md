@@ -1,6 +1,6 @@
 # Phase 3 Project, Frontend
 
-Todo app to showcase full stack web development with Sinatra and React.
+Todo app to showcase full stack web development with Sinatra and React. Go to [backend repo](https://github.com/samuelwstout/phase-3-final-project-backend/tree/project-build-3-pt-1).
 
 ## Available Scripts
 
