@@ -4,7 +4,7 @@ import Folders from './pages/Folders'
 import Folder from './pages/Folder'
 
 const App = () => {
-
+  console.log('hi')
   return (
     <Router>
       <Routes>
