@@ -7,6 +7,7 @@ const Folder = () => {
 
   const [folderName, setFolderName] = useState('')
   const [todoList, setTodoList] = useState([])
+  const [createInput, setCreateInput] = useState('')
   
   useEffect(() => {
     fetch(`http://localhost:9292/folders/${params.id}/todos`)
@@ -27,10 +28,35 @@ const Folder = () => {
     })
 }, [params])
 
+const handleSubmitCreate = (e) => {
+  e.preventDefault()
+  fetch(`http://localhost:9292/folders/${params.id}/todos`, {
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+  name: createInput
+  }),
+})
+  .then(r => r.json())
+  .then(data => {
+    const todo = <div key={data.id}><ul><li>{data.name}</li></ul></div>
+    setTodoList([...todoList, todo])
+  })
+  setCreateInput('')
+}
+
+// setTodoList([...todoList, data.name])
 
     return (
         <div>
           {folderName}
+          <h4>Create Todo:</h4>
+          <form onSubmit={handleSubmitCreate}>
+          <input type='text' value={createInput} onChange={e => setCreateInput(e.target.value)} />
+          <input type='submit' />
+          </form>
           <h2>Todos:</h2>
           {todoList}
         </div>
